@@ -25,7 +25,7 @@ qiime tools import \
    --output-path data/qiime/seq4/emp-paired-end-sequences.qza
 
 qiime demux emp-paired \
-  --m-barcodes-file data/references/metadata.simple.tsv \
+  --m-barcodes-file data/raw/metadata.simple.tsv \
   --m-barcodes-column BarcodeSequence \
   --i-seqs data/qiime/seq4/emp-paired-end-sequences.qza \
   --o-per-sample-sequences data/qiime/seq4/demux.qza \
@@ -50,7 +50,7 @@ qiime demux summarize \
   qiime feature-table summarize \
   --i-table data/qiime/seq4/table.qza \
   --o-visualization data/qiime/seq4/table.qzv \
-  --m-sample-metadata-file data/references/metadata.simple.tsv
+  --m-sample-metadata-file data/raw/metadata.simple.tsv
 
 qiime feature-table tabulate-seqs \
   --i-data data/qiime/seq4/rep-seqs.qza \
