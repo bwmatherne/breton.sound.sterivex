@@ -1,0 +1,63 @@
+#!/bin/bash
+#PBS -q workq
+#PBS -A hpc_houmicro06
+#PBS -l nodes=1:ppn=20
+#PBS -l walltime=24:00:00
+#PBS -o /work/bmath27/sterivex/
+#PBS -j oe
+#PBS -N seq4
+#PBS -m abe
+#PBS -M bmath27@lsu.edu
+date
+
+cd /work/bmath27/
+unset PYTHONPATH
+unset PYTHONUSERBASE
+source activate qiime2-2021.11
+cd /work/bmath27/sterivex
+
+#Step1 demultiplexes EMPPairedEndSequences data
+#Determine your trim values before running
+
+qiime tools import \
+   --type EMPPairedEndSequences \
+   --input-path data/raw/Illumina4 \
+   --output-path data/qiime/seq4/emp-paired-end-sequences.qza
+
+qiime demux emp-paired \
+  --m-barcodes-file data/references/metadata.simple.tsv \
+  --m-barcodes-column BarcodeSequence \
+  --i-seqs data/qiime/seq4/emp-paired-end-sequences.qza \
+  --o-per-sample-sequences data/qiime/seq4/demux.qza \
+  --p-rev-comp-mapping-barcodes \
+  --o-error-correction-details data/qiime/seq4/demux-details.qza
+
+qiime demux summarize \
+  --i-data data/qiime/seq4/demux.qza \
+  --o-visualization data/qiime/seq4/demux.qzv
+
+  qiime dada2 denoise-paired \
+  --i-demultiplexed-seqs data/qiime/seq4/demux.qza \
+  --p-trim-left-f 30 \
+  --p-trim-left-r 30 \
+  --p-trunc-len-f 250 \
+  --p-trunc-len-r 200 \
+  --p-n-threads 0 \
+  --o-table data/qiime/seq4/table.qza \
+  --o-representative-sequences data/qiime/seq4/rep-seqs.qza \
+  --o-denoising-stats data/qiime/seq4/denoising-stats.qza
+
+  qiime feature-table summarize \
+  --i-table data/qiime/seq4/table.qza \
+  --o-visualization data/qiime/seq4/table.qzv \
+  --m-sample-metadata-file data/references/metadata.simple.tsv
+
+qiime feature-table tabulate-seqs \
+  --i-data data/qiime/seq4/rep-seqs.qza \
+  --o-visualization data/qiime/seq4/rep-seqs.qzv
+
+  qiime metadata tabulate \
+  --m-input-file data/qiime/seq4/denoising-stats.qza \
+  --o-visualization data/qiime/seq4/denoising-stats.qzv
+    date
+    exit 0
