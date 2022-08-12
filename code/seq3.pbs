@@ -3,7 +3,7 @@
 #PBS -A hpc_houmicro06
 #PBS -l nodes=1:ppn=20
 #PBS -l walltime=12:00:00
-#PBS -o /work/bmath27/sterivex/
+#PBS -o /work/bmath27/breton.sound.sterivex/
 #PBS -j oe
 #PBS -N seq3
 #PBS -m abe

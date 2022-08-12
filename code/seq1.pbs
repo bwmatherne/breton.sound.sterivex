@@ -3,7 +3,7 @@
 #PBS -A hpc_houmicro06
 #PBS -l nodes=1:ppn=20
 #PBS -l walltime=12:00:00
-#PBS -o /work/bmath27/sterivex/
+#PBS -o /work/bmath27/breton.sound.sterivex/
 #PBS -j oe
 #PBS -N seq1
 #PBS -m abe
@@ -14,7 +14,7 @@ cd /work/bmath27/
 unset PYTHONPATH
 unset PYTHONUSERBASE
 source activate qiime2-2021.11
-cd /work/bmath27/sterivex
+cd /work/bmath27/breton.sound.sterivex
 
 #Step1 demultiplexes EMPPairedEndSequences data
 #Determine your trim values before running
