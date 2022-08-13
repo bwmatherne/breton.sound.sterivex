@@ -18,6 +18,7 @@ cd /work/bmath27/breton.sound.sterivex
 
 #Step1 demultiplexes EMPPairedEndSequences data
 #Determine your trim values before running
+mkdir data/qiime/seq4
 
 qiime tools import \
    --type EMPPairedEndSequences \
