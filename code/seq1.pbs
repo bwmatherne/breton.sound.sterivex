@@ -37,7 +37,10 @@ qiime demux summarize \
   --i-data data/qiime/seq1/demux.qza \
   --o-visualization data/qiime/seq1/demux.qzv
 
-  qiime dada2 denoise-paired \
+# R issue on LSU HPC for dada2
+# Resolved by deleting the .Rprofile
+# Make new .Rprofile and place: .libPaths(.libPaths()[2])
+qiime dada2 denoise-paired \
   --i-demultiplexed-seqs data/qiime/seq1/demux.qza \
   --p-trim-left-f 30 \
   --p-trim-left-r 30 \
