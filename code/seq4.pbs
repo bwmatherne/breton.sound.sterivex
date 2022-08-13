@@ -43,7 +43,7 @@ qiime demux summarize \
   --p-trim-left-r 30 \
   --p-trunc-len-f 250 \
   --p-trunc-len-r 200 \
-  --p-n-threads 0 \
+  --p-n-threads 20 \
   --o-table data/qiime/seq4/table.qza \
   --o-representative-sequences data/qiime/seq4/rep-seqs.qza \
   --o-denoising-stats data/qiime/seq4/denoising-stats.qza
