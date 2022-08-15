@@ -1,0 +1,72 @@
+#!/bin/bash
+#PBS -q workq
+#PBS -A hpc_houmicro06
+#PBS -l nodes=1:ppn=20
+#PBS -l walltime=2:00:00
+#PBS -o work/bmath27/breton.sound.sterivex/
+#PBS -j oe
+#PBS -N combine_table
+#PBS -m abe
+#PBS -M bmath27@lsu.edu
+date
+
+cd /work/bmath27/
+unset PYTHONPATH
+unset PYTHONUSERBASE
+source activate qiime2-2021.11
+cd /work/bmath27/breton.sound.sterivex
+
+###############################################################
+
+# Step 2 - Combine output tables from demux step in seq* scripts
+
+# Merging denoised data
+  # "--p-overlap-method sum" because of identical SampleID#'s
+
+#Merge tables
+
+qiime feature-table merge \
+  --p-overlap-method sum \
+  --i-tables data/qiime/seq1/table.qza \
+  --i-tables data/qiime/seq2/table.qza \
+  --i-tables data/qiime/seq3/table.qza \
+  --i-tables data/qiime/seq4/table.qza \
+  --o-merged-table data/qiime/table.qza
+
+#Merge sequences
+qiime feature-table merge-seqs \
+  --i-data data/qiime/seq1/rep-seqs.qza \
+  --i-data data/qiime/seq2/rep-seqs.qza \
+  --i-data data/qiime/seq3/rep-seqs.qza \
+  --i-data data/qiime/seq4/rep-seqs.qza \
+  --o-merged-data data/qiime/rep-seqs.qza
+
+#visualization outputs
+qiime feature-table summarize \
+  --i-table data/qiime/table.qza \
+  --o-visualization data/qiime/table.qzv \
+  --m-sample-metadata-file data/raw/combined.metadata.tsv
+
+qiime feature-table tabulate-seqs \
+  --i-data data/qiime/rep-seqs.qza \
+  --o-visualization data/qiime/rep-seqs.qzv
+
+#Generate a tree for phylogenetic diversity analyses
+qiime alignment mafft \
+  --i-sequences data/qiime/rep-seqs.qza \
+  --o-alignment data/qiime/aligned-rep-seqs.qza
+
+qiime alignment mask \
+  --i-alignment data/qiime/aligned-rep-seqs.qza \
+  --o-masked-alignment data/qiime/masked-aligned-rep-seqs.qza
+
+qiime phylogeny fasttree \
+  --i-alignment data/qiime/masked-aligned-rep-seqs.qza \
+  --o-tree data/qiime/unrooted-tree.qza
+
+qiime phylogeny midpoint-root \
+  --i-tree data/qiime/unrooted-tree.qza \
+  --o-rooted-tree data/qiime/rooted-tree.qza
+
+date
+exit 0
