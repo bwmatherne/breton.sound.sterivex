@@ -32,11 +32,11 @@ qiime feature-classifier classify-sklearn \
   --i-reads data/qiime/rep-seqs.qza \
   --p-reads-per-batch 356 \
   --p-n-jobs -1 \
-  --o-classification data/qiime/taxonomy.qza
+  --o-classification data/process/taxonomy.qza
 
 qiime metadata tabulate \
   --m-input-file data/qiime/taxonomy.qza \
-  --o-visualization data/qiime/taxonomy.qzv
+  --o-visualization data/process/taxonomy.qzv
 
 
 date
