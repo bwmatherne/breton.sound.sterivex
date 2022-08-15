@@ -16,12 +16,48 @@ unset PYTHONUSERBASE
 source activate qiime2-2021.11
 cd /work/bmath27/breton.sound.sterivex
 
+
+#qiime2 script to remove mitochondria, chloroplast, and sequences with no phyla
 qiime taxa filter-table \
   --i-table data/qiime/table.qza \
   --i-taxonomy data/qiime/taxonomy.qza \
   --p-include p__ \
   --p-exclude mitochondria,chloroplast \
   --o-filtered-table data/process/table-with-phyla-no-mitochondria-no-chloroplast.qza
+
+  qiime taxa filter-seqs \
+    --i-sequences data/qiime/rep-seqs.qza \
+    --i-taxonomy taxonomy.qza \
+    --p-include p__ \
+    --p-exclude mitochondria,chloroplast \
+    --o-filtered-sequences data/process/sequences-with-phyla-no-mitochondria-no-chloroplast.qza
+
+#Generate new output files based on the filtered table
+  qiime feature-table summarize \
+    --i-table data/process/table-with-phyla-no-mitochondria-no-chloroplast.qza \
+    --o-visualization data/process/table-with-phyla-no-mitochondria-no-chloroplast.qzv \
+    --m-sample-metadata-file data/raw/combined.metadata.tsv
+
+  qiime feature-table tabulate-seqs \
+    --i-data data/process/sequences-with-phyla-no-mitochondria-no-chloroplast.qza \
+    --o-visualization data/process/sequences-with-phyla-no-mitochondria-no-chloroplast.qzv
+
+  #Generate a tree for phylogenetic diversity analyses
+  qiime alignment mafft \
+    --i-sequences data/process/sequences-with-phyla-no-mitochondria-no-chloroplast.qza \
+    --o-alignment data/process/aligned-rep-seqs.qza
+
+  qiime alignment mask \
+    --i-alignment data/process/aligned-rep-seqs.qza \
+    --o-masked-alignment data/process/masked-aligned-rep-seqs.qza
+
+  qiime phylogeny fasttree \
+    --i-alignment data/process/masked-aligned-rep-seqs.qza \
+    --o-tree data/process/unrooted-tree.qza
+
+  qiime phylogeny midpoint-root \
+    --i-tree data/process/unrooted-tree.qza \
+    --o-rooted-tree data/process/rooted-tree.qza
 
   date
   exit 0
