@@ -14,3 +14,6 @@ qsub code/seq1.pbs
 qsub code/seq2.pbs
 qsub code/seq3.pbs
 qsub code/seq4.pbs
+
+# Combine output files from each run and make a single table, rept seqs, and tree files
+qsub code/combine_table.pbs
