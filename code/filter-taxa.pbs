@@ -27,7 +27,7 @@ qiime taxa filter-table \
 
   qiime taxa filter-seqs \
     --i-sequences data/qiime/rep-seqs.qza \
-    --i-taxonomy taxonomy.qza \
+    --i-taxonomy data/qiime/taxonomy.qza \
     --p-include p__ \
     --p-exclude mitochondria,chloroplast \
     --o-filtered-sequences data/process/sequences-with-phyla-no-mitochondria-no-chloroplast.qza
