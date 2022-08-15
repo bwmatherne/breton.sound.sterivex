@@ -1,0 +1,43 @@
+#!/bin/bash
+#PBS -q workq
+#PBS -A hpc_houmicro06
+#PBS -l nodes=1:ppn=28
+#PBS -l walltime=2:00:00
+#PBS -o /work/bmath27/breton.sound.sterivex/
+#PBS -j oe
+#PBS -N trainset
+#PBS -m abe
+#PBS -M bmath27@lsu.edu
+date
+
+cd /work/bmath27/
+unset PYTHONPATH
+unset PYTHONUSERBASE
+source activate qiime2-2021.11
+cd /work/bmath27/breton.sound.sterivex
+
+#============================================================
+#Classifier previously trained for sterivex run.
+#Check that repository for more details
+#Setting needed are the same for these samples
+	#ref-seqs and and classifier qza files copied to filters repository
+
+
+# Test the classifier
+	# Calculate Reads Per Batch by using wc -l on rep-seqs to count seqs
+	# Then divide by number of processors
+
+qiime feature-classifier classify-sklearn \
+  --i-classifier data/references/classifier.qza \
+  --i-reads data/qiime/rep-seqs.qza \
+  --p-reads-per-batch 356 \
+  --p-n-jobs -1 \
+  --o-classification data/qiime/taxonomy.qza
+
+qiime metadata tabulate \
+  --m-input-file data/qiime/taxonomy.qza \
+  --o-visualization data/qiime/taxonomy.qzv
+
+
+date
+exit 0
