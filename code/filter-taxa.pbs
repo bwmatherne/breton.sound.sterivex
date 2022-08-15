@@ -5,7 +5,7 @@
 #PBS -l walltime=2:00:00
 #PBS -o /work/bmath27/breton.sound.sterivex/
 #PBS -j oe
-#PBS -N trainset
+#PBS -N filter-taxa
 #PBS -m abe
 #PBS -M bmath27@lsu.edu
 date
