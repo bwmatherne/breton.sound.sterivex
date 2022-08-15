@@ -22,3 +22,5 @@ qsub code/combine_table.pbs
 qsub code/trainset.pbs
 
 # Run script to remove mitochondria, chloroplasts, and sequences with no phyla assignement
+
+qsub code/filter-taxa.pbs
