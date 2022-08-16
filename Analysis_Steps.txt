@@ -5,10 +5,14 @@
 # Step 1
   # Make changes to any metadata files
 R code/bs_metadata.R
+    # If using git, push to repository
 
 # Step 2
   # Process raw reads on the LSU HPC using qiime2
-
+    # If using git, pull from repository
 bash qiime_driver.bash
+    # Download all output files and save in a local directory
 
 # Step 3
+  # Create a phyloseq object and proceed with further analyses
+R phyloseq_driver.R
