@@ -59,5 +59,14 @@ qiime taxa filter-table \
     --i-tree data/process/unrooted-tree.qza \
     --o-rooted-tree data/process/rooted-tree.qza
 
+#####################################
+# Filter files to remove Barataria Bay samples
+qiime feature-table filter-samples \
+  --i-table data/process/table-with-phyla-no-mitochondria-no-chloroplast.qza \
+  --m-metadata-file data/process/bs.metadata.tsv \
+  --o-filtered-table data/process/bs.table.qza
+
+
+
   date
   exit 0
