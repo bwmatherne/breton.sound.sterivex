@@ -1,4 +1,5 @@
 #SampleID	BarcodeSequence	LinkerPrimerSequence	Site	Year	Month	Location	Temp	Salinity	CHLA	TSS	Event	Time	studyid	Description
+#q2:types	categorical	categorical	categorical	numeric	numeric	categorical	numeric	numeric	numeric	numeric	categorical	categorical	categorical	categorical
 B4	CAACGTGCTCCA	 	BS	2008	1	Coastal	12.61	13.6	25.11	87	Diversion	b	i	CFWD
 B6	GGTTTAACACGC	 	BS	2008	3	Coastal	19.9	4	15.52	71	Diversion	a	i	CFWD
 B8	ACTCTAGCCGGT	 	BS	2008	3	Coastal	19.44	8.7	12.4	52.3	Diversion	a	i	CFWD
