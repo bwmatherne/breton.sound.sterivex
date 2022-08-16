@@ -1,0 +1,14 @@
+#Analysis Steps
+
+# First create a directory and place required files in the proper folders
+
+# Step 1
+  # Make changes to any metadata files
+R code/bs_metadata.R
+
+# Step 2
+  # Process raw reads on the LSU HPC using qiime2
+
+bash qiime_driver.bash
+
+# Step 3
