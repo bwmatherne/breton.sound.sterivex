@@ -2,7 +2,7 @@
 
 ############################################################################
 
-# Analysis Driver for breton.sound.sterivex filter data using Riffomonas.org instructions
+# QIIME2 Analysis Driver for breton.sound.sterivex filter data using Riffomonas.org instructions
 # Settings are inabled for running on the LSU HPC
 
 ############################################################################
