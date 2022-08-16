@@ -87,7 +87,7 @@ colnames(tax_table) <- c("Kingdom","Phylum","Class","Order","Family","Genus","Sp
 rownames(tax_table) <- taxonomy$data$Feature.ID
 
 # Creating phyloseq object
-physeq <- phyloseq(
+phy <- phyloseq(
   otu_table(ASVs$data, taxa_are_rows = T),
   phy_tree(tree$data),
   tax_table(tax_table),
@@ -95,25 +95,30 @@ physeq <- phyloseq(
 )
 
 # check for features of data  
-summarize_phyloseq(physeq)
-print_ps(physeq)
-summary(sample_sums(physeq))
+summarize_phyloseq(phy)
+print_ps(phy)
+summary(sample_sums(phy))
 
 # Accessing the phyloseq object
 
-ntaxa(physeq)
+ntaxa(phy)
 
-nsamples(physeq)
+nsamples(phy)
 
-sample_names(physeq)[1:5]  
+sample_names(phy)[1:5]  
 
-rank_names(physeq)  
+rank_names(phy)  
 
-sample_variables(physeq)  
+sample_variables(phy)  
 
-otu_table(physeq)[1:5, 1:5]  
+otu_table(phy)[1:5, 1:5]  
 
-tax_table(physeq)[1:5, 1:4]
+tax_table(phy)[1:5, 1:4]
+
+#Filter data by Site
+
+physeq <- subset_samples(phy, Site == "BS")
+
 
 # Distribution of reads
 
