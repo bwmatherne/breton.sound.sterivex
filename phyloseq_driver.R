@@ -115,9 +115,10 @@ otu_table(phy)[1:5, 1:5]
 
 tax_table(phy)[1:5, 1:4]
 
-#Filter data by Site
+#Filter data by Site to remove Barataria Bay samples
 
-physeq <- subset_samples(phy, Site == "BS")
+physeq <- subset_samples(phy, Site == "BS") 
+physeq <- subset_samples(physeq, Location != "UNKNOWN")
 
 
 # Distribution of reads
@@ -126,7 +127,7 @@ plot_read_distribution(physeq, groups = "Location", plot.type = "density") + the
 
 #Rarefy the phyloseq object to even depth prior various analysis
 
-physeq_rarefy <- rarefy_even_depth(physeq, rngseed=1, sample.size=0.9*min(sample_sums(physeq)), replace=F)
+physeq_rarefy <- rarefy_even_depth(physeq, rngseed=629, sample.size=0.9*min(sample_sums(physeq)), replace=F)
 
 # Check the taxa prevalence at Phylum level
 
@@ -146,19 +147,19 @@ plot_composition(physeq.fam.rel,sample.sort = "Location", x.label = "SampleID") 
 
 # Barplot Option 2
 
-taxa_barplot(Summarize.Taxa(ASVs$data, as.data.frame(tax_table))$Family, metadata, "Site")
+taxa_barplot(Summarize.Taxa(ASVs$data, as.data.frame(tax_table))$Family, metadata, "Location")
 
   # To make it interactive
-ggplotly(taxa_barplot(Summarize.Taxa(ASVs$data, as.data.frame(tax_table))$Family, metadata, "Site"))
+ggplotly(taxa_barplot(Summarize.Taxa(ASVs$data, as.data.frame(tax_table))$Family, metadata, "Location"))
 
   # save the plot
-b.plot <- taxa_barplot(Summarize.Taxa(ASVs$data, as.data.frame(tax_table))$Family, metadata, "Site")
+b.plot <- taxa_barplot(Summarize.Taxa(ASVs$data, as.data.frame(tax_table))$Family, metadata, "Location")
 
 ggsave("results/figures/barplot_family.png", b.plot,  width = 14, height = 10, dpi = 300)
 
 # Heatmap
 
-taxa_heatmap(Summarize.Taxa(ASVs$data, as.data.frame(tax_table))$Family, metadata, "Site")
+taxa_heatmap(Summarize.Taxa(ASVs$data, as.data.frame(tax_table))$Family, metadata, "Location")
 
 # Heatmap 2
 

@@ -1,0 +1,100 @@
+#SampleID	BarcodeSequence	LinkerPrimerSequence	Site	Year	Month	Location	Temp	Salinity	CHLA	TSS	Event	Time	studyid	Description
+B4	CAACGTGCTCCA	 	BS	2008	1	Coastal	12.61	13.6	25.11	87	Diversion	b	i	CFWD
+B6	GGTTTAACACGC	 	BS	2008	3	Coastal	19.9	4	15.52	71	Diversion	a	i	CFWD
+B8	ACTCTAGCCGGT	 	BS	2008	3	Coastal	19.44	8.7	12.4	52.3	Diversion	a	i	CFWD
+B10	ATGGGCGAATGG	 	BS	2008	3	Coastal	19.44	4.5	5.73	18.5	Diversion	a	i	CFWD
+B12	CTTGAGAAATCG	 	BS	2008	4	Coastal	25.2	2.3	13.55	53.5	Diversion	a	i	CFWD
+B14	GCCTGTCTGCAA	 	BS	2008	4	Coastal	23.56	2.54	4.89	17.5	Diversion	a	i	CFWD
+B16	TACACAAGTCGC	 	BS	2008	5	Coastal	26.4	1.6	24.63	92	Diversion	a	i	CFWD
+B3	AAGACAGCTATC	 	BS	2008	1	Inshore	12.61	0.2	3.27	44	Diversion	b	i	CFWD
+B5	ATCCCTACGGAA	 	BS	2008	3	Inshore	17.9	0.2	1.22	101	Diversion	a	i	CFWD
+B7	TATCACCGGCAC	 	BS	2008	3	Inshore	19.44	0.2	32.75	149	Diversion	a	i	CFWD
+B9	GGTCTCCTACAG	 	BS	2008	3	Inshore	19.44	0.2	11.93	33.5	Diversion	a	i	CFWD
+B11	CTGGGTATCTCG	 	BS	2008	4	Inshore	20.6	0.2	4.56	28.5	Diversion	a	i	CFWD
+B13	CGAGCTGTTACC	 	BS	2008	4	Inshore	23.29	0.14	2.62	14.7	Diversion	a	i	CFWD
+B15	CGCTACAACTCG	 	BS	2008	5	Inshore	26.4	0.2	34.55	36	Diversion	a	i	CFWD
+B42	TCCATCGACGTG	 	BS	2010	1	Coastal	10.79	5.8	11.9	13.6	Diversion	b	c	CFWD-C
+B58	AAGTGGCTATCC	 	BS	2011	1	Coastal	12.37	14.3	8.66	46.9	Diversion	b	c	CFWD-C
+B70	GCATTACTGGAC	 	BS	2012	1	Coastal	15.2	9.1	 	 	Diversion	b	c	CFWD-C
+B26	ACTGATGGCCTC	 	BS	2009	2	Coastal	17.12	14.7	6.7	53.3	Diversion	a	c	CFWD-C
+B28	GCGTCCATGAAT	 	BS	2009	3	Coastal	20.32	0.2	4.1	149	Diversion	a	c	CFWD-C
+B60	TCTACGGCACGT	 	BS	2011	5	Coastal	29	10.9	 	 	Diversion	a	c	CFWD-C
+B41	CGATCTTCGAGC	 	BS	2010	1	Inshore	10.79	0.2	9.7	77	Diversion	b	c	CFWD-C
+B57	ATTGAGTGAGTC	 	BS	2011	1	Inshore	12.37	0.2	9.91	15	Diversion	b	c	CFWD-C
+B69	TTATGGTACGGA	 	BS	2012	1	Inshore	11.6	0.2	 	 	Diversion	a	c	CFWD-C
+B72	GTGACGTTAGTC	 	BS	2009	2	Inshore	16.24	0.2	13.3	68	Diversion	a	c	CFWD-C
+B27	TTCTCCATCACA	 	BS	2009	3	Inshore	20.32	0.2	361.7	34	Diversion	a	c	CFWD-C
+B31	AGGTCCAAATCA	 	BS	2009	5	Inshore	26.58	0.92	41.6	11.5	Diversion	a	c	CFWD-C
+B44	CTACGAAAGCCT	 	BS	2010	3	Coastal	16.28	2.8	11.62	38.5	Oil_Spill	b	i	DWH
+B46	ACGGCGTTATGT	 	BS	2010	4	Coastal	22.79	7.6	12.78	68.5	Oil_Spill	a	i	DWH
+B48	TCCGTGGTATAG	 	BS	2010	5	Coastal	27.01	5.8	19.75	32.2	Oil_Spill	a	i	DWH
+B50	GCGAAGTTGGGA	 	BS	2010	6	Coastal	30.45	1.8	14.84	25	Oil_Spill	a	i	DWH
+B43	GACTGACTCGTC	 	BS	2010	3	Inshore	16.28	0.3	29.58	87	Oil_Spill	b	i	DWH
+B45	TATCCAAGCGCA	 	BS	2010	4	Inshore	22.79	0.3	36.27	66.7	Oil_Spill	a	i	DWH
+B47	CTTCGCGGATGT	 	BS	2010	5	Inshore	27.01	0.2	3.98	13.1	Oil_Spill	a	i	DWH
+B49	GATCATTCTCTC	 	BS	2010	6	Inshore	30.45	0.2	4.82	0.5	Oil_Spill	a	i	DWH
+B30	GCCACGACTTAC	 	BS	2009	4	Coastal	22.05	9.3	10.3	80	Oil_Spill	a	c	DWH-C
+B32	AATGACCTCGTG	 	BS	2009	5	Coastal	26.58	7.51	33.5	33.3	Oil_Spill	a	c	DWH-C
+B62	GCATTCGGCGTT	 	BS	2011	6	Coastal	31.4	8	 	 	Oil_Spill	a	c	DWH-C
+B29	GTGTTCCCAGAA	 	BS	2009	4	Inshore	22.05	0	59.5	131	Oil_Spill	a	c	DWH-C
+B59	GTTCCTCCATTA	 	BS	2011	5	Inshore	27.93	0.5	 	 	Oil_Spill	a	c	DWH-C
+B61	AGACATACCGTA	 	BS	2011	6	Inshore	33	1.2	 	 	Oil_Spill	a	c	DWH-C
+B37	TCTGAGGTTGCC	 	BS	2009	9	Inshore	28.55	0.2	 	16	Oil_Spill	a	c	DWH-C
+B53	CCACATTGGGTC	 	BS	2010	9	Inshore	28.67	1	39.63	11	Oil_Spill	a	c	DWH-C
+B65	AACTGCGATATG	 	BS	2011	9	Inshore	28.22	0.55	 	 	Oil_Spill	a	c	DWH-C
+B18	AGACAGTAGGAG	 	BS	2008	6	Coastal	30.19	9.5	19	52.8	Hurricane	b	i	Gustav
+B20	CGATAGGCCTTA	 	BS	2008	8	Coastal	30.63	9.33	14.5	26.5	Hurricane	a	i	Gustav
+B22	GATCTCTGGGTA	 	BS	2008	9	Coastal	27.17	18.25	2.4	4	Hurricane	a	i	Gustav
+B24	CTACACAGCACA	 	BS	2008	10	Coastal	24.65	17.8	7	17.1	Hurricane	a	i	Gustav
+B17	GGTTCCATTAGG	 	BS	2008	6	Inshore	31.21	0.2	83.3	14	Hurricane	b	i	Gustav
+B19	TATGCCAGAGAT	 	BS	2008	8	Inshore	30.4	0.43	14.2	13	Hurricane	a	i	Gustav
+B21	ACTGACTTAAGG	 	BS	2008	9	Inshore	27.17	6.21	25	14.5	Hurricane	a	i	Gustav
+B23	GACTACCCGTTG	 	BS	2008	10	Inshore	24.65	3	35.1	32	Hurricane	a	i	Gustav
+B34	CATCATACGGGT	 	BS	2009	6	Coastal	30.18	9.47	15.8	23.2	Hurricane	b	c	Gustav-C
+B36	GAAATGCTACGT	 	BS	2009	8	Coastal	30.21	16.96	15.5	58.5	Hurricane	a	c	Gustav-C
+B52	GGCATGTTATCG	 	BS	2010	8	Coastal	30.73	2.5	31.68	21	Hurricane	a	c	Gustav-C
+B64	AGGCACAGTAGG	 	BS	2011	8	Coastal	31.3	14.6	 	 	Hurricane	a	c	Gustav-C
+B2	GACTTCATGCGA	 	BS	2007	9	Coastal	20.52	11.9	11.01	79	Hurricane	a	c	Gustav-C
+B38	CGATGTGTGGTT	 	BS	2009	9	Coastal	28.55	8.7	 	46.3	Hurricane	a	c	Gustav-C
+B54	CAAAGCGGTATT	 	BS	2010	9	Coastal	28.67	9.2	18.46	45.6	Hurricane	a	c	Gustav-C
+B66	CGAAACTACGTA	 	BS	2011	9	Coastal	28.67	8.79	 	 	Hurricane	a	c	Gustav-C
+B71	CTTAGCTACTCT	 	BS	2009	10	Coastal	22.77	1.6	15.7	50	Hurricane	a	c	Gustav-C
+B56	ATATGACCCAGC	 	BS	2010	10	Coastal	23.42	10.7	18.73	57	Hurricane	a	c	Gustav-C
+B68	GCTGTGATTCGA	 	BS	2011	10	Coastal	21.9	14	 	 	Hurricane	a	c	Gustav-C
+B33	GATGCTGCCGTT	 	BS	2009	6	Inshore	30.18	0.17	40.9	6.6	Hurricane	b	c	Gustav-C
+B35	GCGTTGCAAACT	 	BS	2009	8	Inshore	30.21	0.22	28.7	12	Hurricane	a	c	Gustav-C
+B51	GACGCACTAACT	 	BS	2010	8	Inshore	30.73	0.1	26.61	0.4	Hurricane	a	c	Gustav-C
+B63	GGCGATTTACGT	 	BS	2011	8	Inshore	31.6	0.3	 	 	Hurricane	a	c	Gustav-C
+B1	ATTCGGTAGTGC	 	BS	2007	9	Inshore	20.52	0.2	34.72	9	Hurricane	a	c	Gustav-C
+B39	TCGTCAAACCCG	 	BS	2009	10	Inshore	20.96	0.2	10.3	15.2	Hurricane	a	c	Gustav-C
+B55	TGTGTAGCCATG	 	BS	2010	10	Inshore	23.42	0.7	36.46	20.5	Hurricane	a	c	Gustav-C
+B67	AAGGGCGCTGAA	 	BS	2011	10	Inshore	21.8	0.4	 	 	Hurricane	a	c	Gustav-C
+B103	TCACTTGGTGCG	 	BS	2008	1	Inshore	12.61	0.3	7.21	6	Diversion	b	i	CFWD
+B104	AAGATCGTACTG	 	BS	2008	1	Coastal	12.61	1.2	3.71	55	Diversion	b	i	CFWD
+B105	TTGGAACGGCTT	 	BS	2008	3	Inshore	20	0.2	3	31	Diversion	a	i	CFWD
+B106	GCTTCCAGACAA	 	BS	2008	3	Coastal	19.9	4	15.5	71	Diversion	a	i	CFWD
+B117	CAGGATTCGTAC	 	BS	2008	6	Inshore	32.24	0.2	12	5.4	Hurricane	b	i	Gustav
+B118	TGCCGCCGTAAT	 	BS	2008	6	Coastal	30.22	2.8	20.9	25.2	Hurricane	b	i	Gustav
+B119	GACAGAGGTGCA	 	BS	2008	8	Inshore	31.87	0.79	12.1	7.5	Hurricane	a	i	Gustav
+B120	CGTCGTCTAAGA	 	BS	2008	8	Coastal	31.87	13.92	10.3	11.4	Hurricane	a	i	Gustav
+B126	TGAGTTCGGTCC	 	BS	2009	2	Coastal	17.12	10.4	13.5	38.7	Diversion	a	c	CFWD-C
+B129	TCTAACGAGTGC	 	BS	2009	4	Inshore	22.05	3.3	22.4	34.7	Oil_Spill	a	c	DWH-C
+B130	TGGAGAGGAGAT	 	BS	2009	4	Coastal	22.05	5.4	13.4	105	Oil_Spill	a	c	DWH-C
+B133	GTAGCACTCATG	 	BS	2009	6	Inshore	28.3	0.72	17.8	4.6	Hurricane	b	c	Gustav-C
+B134	TTATGTACGGCG	 	BS	2009	6	Coastal	28.3	5.73	11.2	14.9	Hurricane	b	c	Gustav-C
+B135	ACTCATCTTCCA	 	BS	2009	8	Inshore	31.7	0.29	17.4	13	Hurricane	a	c	Gustav-C
+B136	TCCTAGGTCCGA	 	BS	2009	8	Coastal	30.21	6.76	18.7	48.4	Hurricane	a	c	Gustav-C
+B141	ACACAGTCCTGA	 	BS	2010	1	Coastal	10.79	2.9	12.6	29.6	Diversion	b	c	CFWD-C
+B142	CGCATACGACCT	 	BS	2010	1	Coastal	10.79	2.1	11	74	Diversion	b	c	CFWD-C
+B143	AACCTCGGATAA	 	BS	2010	3	Inshore	17	0.5	32.014	29.3	Oil_Spill	b	i	DWH
+B144	TCAGACCAACTG	 	BS	2010	3	Coastal	16.28	1.9	19.747	29	Oil_Spill	b	i	DWH
+B145	CAAGCGTTGTCC	 	BS	2010	4	Inshore	22.79	2.4	14.807	39.6	Oil_Spill	a	i	DWH
+B146	TTACGTGGCGAT	 	BS	2010	4	Coastal	22.79	4.6	4.834	27.7	Oil_Spill	a	i	DWH
+B151	CATCTGGGCAAT	 	BS	2010	8	Inshore	30.73	0.1	8.056	5	Hurricane	a	c	Gustav-C
+B152	CGTATAAATGCG	 	BS	2010	8	Coastal	30.73	1.1	30.313	2.4	Hurricane	a	c	Gustav-C
+B157	CACCTGTAGTAG	 	BS	2011	1	Inshore	12.37	0.5	86.456	29	Diversion	b	c	CFWD-C
+B158	TTGGACGTCCAC	 	BS	2011	1	Coastal	12.37	9	22.831	64	Diversion	b	c	CFWD-C
+B163	GAGATACAGTTC	 	BS	2011	8	Inshore	31.6	0.3	 	 	Hurricane	a	c	Gustav-C
+B164	ACGTAACCACGT	 	BS	2011	8	Coastal	31.3	14.6	 	 	Hurricane	a	c	Gustav-C
+B169	ATTATACGGCGC	 	BS	2012	1	Inshore	11.6	0.2	 	 	Diversion	b	c	CFWD-C
+B170	GCCTCGTACTGA	 	BS	2012	1	Coastal	15.2	9.1	 	 	Diversion	b	c	CFWD-C
