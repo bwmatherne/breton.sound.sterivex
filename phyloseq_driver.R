@@ -72,10 +72,10 @@ library(microbiomeutilities) # some utility tools
 #Convert qiime artifacts directly to phyloseq
 
 # Importing ASVs abundance file
-ASVs <- read_qza("data/process/table-with-phyla-no-mitochondria-no-chloroplast.qza")
+ASVs <- read_qza("data/process/bs.table.qza")
 
 #Importing metadata
-metadata <- read.table("data/raw/combined.metadata.tsv", sep='\t', header=T, row.names=1, comment="")
+metadata <- read.table("data/process/bs.metadata.tsv", sep='\t', header=T, row.names=1, comment="")
 metadata <- metadata[-1,] # remove the second line that specifies the data type
 
 # Importing tree
@@ -91,8 +91,7 @@ phy <- phyloseq(
   otu_table(ASVs$data, taxa_are_rows = T),
   phy_tree(tree$data),
   tax_table(tax_table),
-  sample_data(metadata)
-)
+  sample_data(metadata))
 
 # check for features of data  
 summarize_phyloseq(phy)
@@ -115,7 +114,7 @@ otu_table(phy)[1:5, 1:5]
 
 tax_table(phy)[1:5, 1:4]
 
-#Filter data by Site to remove Barataria Bay samples
+#Double check that data are filtered by site to remove Barataria Bay samples
 
 physeq <- subset_samples(phy, Site == "BS") 
 physeq <- subset_samples(physeq, Location != "UNKNOWN")
@@ -167,15 +166,15 @@ library(pheatmap)
 
 p <- plot_taxa_heatmap(physeq,
                        subset.top = 25,
-                       VariableA = c("Location","Month"),
+                       VariableA = c("Location", "Event"),
                        transformation = "log10",
                        cluster_rows = T,
                        cluster_cols = F,
                        show_colnames = F,
-                       heatcolors = colorRampPalette(rev(brewer.pal(n = 7, name = "RdYlBu")))(100),
-)
+                       heatcolors = colorRampPalette(rev(brewer.pal(n = 7, name = "RdYlBu")))(100),)
 #the plot is stored here
 p$plot
+
 
 # table used for plot is here
 p$tax_tab[1:3,1:3]
@@ -183,7 +182,9 @@ p$tax_tab[1:3,1:3]
 
 # Heatmap 3
 
-h.map <- plot_heatmap(physeq.fam.rel, method="PCoA", distance="bray", taxa.label = "Family", sample.order = unique(sample_names(physeq))) + facet_grid(~Location, scales = "free_x", drop = TRUE) + theme_bw() + theme(axis.text.x = element_text(face = "bold", angle = 45, hjust = 1)) + theme(legend.key = element_blank(),strip.background = element_rect(colour="black", fill="white"))
+h.map <- plot_heatmap(physeq.fam.rel, method="PCoA", distance="bray", taxa.label = "Family", sample.order = unique(sample_names(physeq))) + 
+  facet_grid(~Location, scales = "free_x", drop = TRUE) + theme_bw() + theme(axis.text.x = element_text(face = "bold", angle = 45, hjust = 1)) + 
+  theme(legend.key = element_blank(),strip.background = element_rect(colour="black", fill="white"))
 
 # Make bacterial names italics
 h.map <- h.map + theme(axis.text.y = element_text(colour = 'black', size = 10, face = 'italic'))
@@ -197,7 +198,7 @@ h.map <- h.map + rremove("x.text")
 print(h.map)
 
 # Saving the plot
-ggsave("results/figures/heatmap_family.png", h.map,  width = 14, height = 10, dpi = 300)
+ggsave("results/figures/bs_heatmap_family.png", h.map,  width = 14, height = 10, dpi = 300)
 
 # Boxplot
 
@@ -229,15 +230,15 @@ t.plot <- plot_taxa_boxplot(physeq,
                   dot.size = 2) + theme_biome_utils()
 print(t.plot)
 # Saving the plot
-ggsave("results/figures/top6families_plot.png", t.plot,  width = 14, height = 10, dpi = 300)
+ggsave("results/figures/bs_top6families_plot.png", t.plot,  width = 14, height = 10, dpi = 300)
 
+#################################################
 # plotting taxa specified by the user
 
 physeq.f <- format_to_besthit(physeq)
 
-top_taxa(physeq.f, 5)
+select.taxa <- top_taxa(physeq.f, 5)
 
-select.taxa <- c("6247ad94b599d7cadc5c5feb32b1ca05:p__Proteobacteria", "096e9e07cd5e6ad29c90f2de5b9731ba:d__Bacteria")
 
 p <- plot_listed_taxa(physeq.f, select.taxa, 
                       group= "Location",
@@ -260,6 +261,34 @@ p <- p + stat_compare_means(
   method = "wilcox.test") 
 
 p + scale_y_continuous(labels = scales::percent)
+
+#################################################
+# plotting taxa specified by the user separate by EVENT
+
+p2 <- plot_listed_taxa(physeq.f, select.taxa, 
+                      group= "Event",
+                      group.order = c("Diversion","Hurricane", "Oil_Spill"),
+                      group.colors = mycols,
+                      add.violin = F,
+                      dot.opacity = 0.25,
+                      box.opacity = 0.25,
+                      panel.arrange= "grid") + ylab("Relative abundance") + scale_y_continuous(labels = scales::percent)
+
+# clean the taxa names
+
+# Adding statistical test with ggpubr::stat_compare_means()
+
+# If more than two variables
+comps2 <- make_pairs(sample_data(physeq.f)$Event)
+print(comps2)
+
+p2 <- p2 + stat_compare_means(
+  comparisons = comps2,
+  label = "p.format",
+  tip.length = 0.05,
+  method = "wilcox.test") 
+
+p2 + scale_y_continuous(labels = scales::percent) 
 
 # Plot top four genera
 
@@ -285,7 +314,7 @@ tg.plot <- top_genera + stat_compare_means(
 
 print(tg.plot)
 # Saving the plot
-ggsave("results/figures/top4genera_plot.png", tg.plot,  width = 14, height = 10, dpi = 300)
+ggsave("results/figures/bs_top4genera_plot.png", tg.plot,  width = 14, height = 10, dpi = 300)
 
 
 #Dominant Taxa
@@ -327,7 +356,7 @@ mean.plot <- grp_abund %>% # input data
 mean.plot
 
 # Saving the plot
-ggsave("results/figures/mean_plot.png", mean.plot,  width = 14, height = 10, dpi = 300)
+ggsave("results/figures/bs_mean_plot.png", mean.plot,  width = 14, height = 10, dpi = 300)
 
 #Find samples dominated by specific taxa
 bact_dom <- find_samples_taxa(physeq.gen, taxa = "g__Acinetobacter")
