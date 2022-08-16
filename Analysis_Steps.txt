@@ -15,4 +15,6 @@ bash qiime_driver.bash
 
 # Step 3
   # Create a phyloseq object and proceed with further analyses
-R phyloseq_driver.R
+R phyloseq_driver.R # Will break out individual scripts
+
+R source(file='code/create_phy_object.R')

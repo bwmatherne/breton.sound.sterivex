@@ -365,10 +365,13 @@ bact_dom <- find_samples_taxa(physeq.gen, taxa = "g__Acinetobacter")
 ps.sub <- prune_samples(sample_names(physeq.gen) %in% bact_dom, physeq.gen)
 print(ps.sub) # Needs more steps to be useful
 
-
+###################################################################
 #Alpha Diversities
     # Plot rarefraction curve
-ggrare(physeq, step = 50, color="Location", label = "Sample", se = TRUE)
+rarefrac <- ggrare(physeq, step = 50, color="Location", label = "Sample", se = TRUE)
+
+    # Saving the plot
+ggsave("results/figures/bs_curve_plot.png", rarefrac,  width = 14, height = 10, dpi = 300)
 
 #phyloseq also allows you to easily plot alpha diversity, both by sample and by group
 
@@ -377,7 +380,7 @@ plot_richness(physeq_rarefy, measures="Shannon")
 a.div <- plot_richness(physeq_rarefy, x="Location", measures=c("Shannon", "simpson", "Observed"), color = "Location") + geom_boxplot() + theme_bw()
 
 # adding statistical support
-a.div + stat_compare_means(
+a.plot <- a.div + stat_compare_means(
   comparisons = comps,
   label = "p.signif",
   tip.length = 0.05,
@@ -386,11 +389,14 @@ a.div + stat_compare_means(
     symbols = c("xxxx", "***", "**", "*", "ns")
   ),
   method = "wilcox.test")
+print(a.plot)
+
+ggsave("results/figures/richness_plot.png", a.plot,  width = 14, height = 10, dpi = 300)
 
 # generate a csv file of the richness estimates using
 
 richness <- estimate_richness(physeq_rarefy,measures=c("Shannon", "simpson", "Observed"))
-write.csv(richness, file = "alpha_div.csv")
+write.csv(richness, file = "results/tables/alpha_div.csv")
 
 #Creating a plot with one index and stats
 
@@ -462,6 +468,7 @@ taxonomy_core <- as.data.frame(tax_table(physeq.inshore.rel2))
 core_taxa_id <- subset(taxonomy_core, rownames(taxonomy_core) %in% core.taxa.standard)
 
 DT::datatable(core_taxa_id)
+write.csv(core_taxa_id, file = "results/tables/core_inshore.csv")
 
 ###
 #Subset the data to keep only Coastal samples.
@@ -486,15 +493,33 @@ taxonomy_core_coast <- as.data.frame(tax_table(physeq.coastal.rel2))
 core_taxa_id_coast <- subset(taxonomy_core_coast, rownames(taxonomy_core_coast) %in% core.taxa.standard.coast)
 
 DT::datatable(core_taxa_id_coast)
+write.csv(core_taxa_id, file = "results/tables/core_coastal.csv")
 
 #10.1 Core abundance and diversity
 #Total core abundance in each sample (sum of abundances of the core members):
   
-  core.abundance <- sample_sums(core(physeq.inshore.rel2, detection = 0.001, prevalence = 20/100))
+core.abundance <- sample_sums(core(physeq.inshore.rel2, detection = 0.001, prevalence = 20/100))
 
 DT::datatable(as.data.frame(core.abundance))
+write.csv(core.abundance, file = "results/tables/core_abundance_inshore.csv")
 
-################################# Skipped to section 12
+core.abundance.2 <- sample_sums(core(physeq.coastal.rel2, detection = 0.001, prevalence = 20/100))
+
+DT::datatable(as.data.frame(core.abundance.2))
+write.csv(core.abundance.2, file = "results/tables/core_abundance_coastal.csv")
+
+################################# Skipped to section 11
+#11. Hierarchical Clustering
+  # Heirachial clustering to visualize the distance between the samples using Weighted Unifrac and UPGMA method.
+
+phy.hclust <- hclust(UniFrac(physeq_rarefy, weighted = TRUE), method="average")
+
+dendro <- ggdendrogram(phy.hclust, rotate = TRUE, theme_dendro = TRUE)
+
+print(dendro)
+
+
+
 #12. Microbiome network
 #You can plot the distances between ASVs as a network.
 
@@ -513,11 +538,12 @@ plot_network(ig, physeq_rel, color="Location", line_weight=0.4, label=NULL)
 ig <- make_network(physeq_rel, dist.fun="bray", max.dist=0.8)
 plot_network(ig, physeq_rel, color="Location", line_weight=0.4, label=NULL)
       #####Note: For co-occurrence networks of OTUs, I suggest trying Gephi or Cytoscape
-
+############################################
+  ######### Section 13 not running with current settings, will follow DeSeq Specific tutorial
 #13. Differential abundance testing
 # DeSeq2 to test for differential abundance between categories
 
-#Convert phyloseq object ot DeSeq
+#Convert phyloseq object to DeSeq
 bsdds <- phyloseq_to_deseq2(physeq_rarefy, ~ Location)
 gm_mean <- function(x, na.rm=TRUE){
   exp(sum(log(x[x > 0]), na.rm=na.rm) / length(x))
