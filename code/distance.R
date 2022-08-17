@@ -17,6 +17,12 @@ phy2 <- subset_taxa(phy, Genus != "-1")
 dist_methods <- unlist(distanceMethodList)
 print(dist_methods)
 
+# This is the user-defined method:
+dist_methods["designdist"]
+
+# Remove the user-defined distance
+dist_methods = dist_methods[-which(dist_methods=="ANY")]
+
 # Loop through each distance method, save each plot to a list, called plist
 plist <- vector("list", length(dist_methods))
 names(plist) = dist_methods
