@@ -64,6 +64,7 @@ ASVs <- read_qza("data/process/bs.table.qza")
 #Importing metadata
 metadata <- read.table("data/process/bs.metadata.tsv", sep='\t', header=T, row.names=1, comment="")
 metadata <- metadata[-1,] # remove the second line that specifies the data type
+metadata$Month <- fct_relevel(metadata$Month, c("1","2","3","4","5","6","8","9","10")) # Set month order for down stream plotting
 
 # Importing tree
 tree <- read_qza("data/process/rooted-tree.qza")
