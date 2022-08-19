@@ -9,7 +9,7 @@ rm(list = ls())
 
 source(file='code/create_phy_object.R')
 
-
+phy<-readRDS('phy_data.RDS')
 
 
   
