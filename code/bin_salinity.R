@@ -12,19 +12,30 @@ library(tidyverse)
 #Importing metadata
 bin <- read_q2metadata("data/process/bs.metadata.tsv")
 
-
-#perform binning with specific number of bins
-bin1 <- bin %>% mutate(bin_sal = ntile(Salinity, n=3))
-head(bin1) # Note, evenly distributes samples but not specific by salinty value
-
-#perform binning with specific bin ranges
-
-bin %>% mutate(bin_sal = cut(Salinity, breaks=c(0,5,15))) %>% group_by(bin_sal) %>% count()
-bin %>% mutate(bin_sal = cut(Salinity, breaks=3)) %>% head()
-
-glimpse(bin)
-write_tsv(bin, file = "data/process/bin.metadata.tsv")
-
-
-sal <- pull(bin,Salinity)
 hist(bin$Salinity)
+
+bin %>% group_by(Location) %>%
+  mutate(avg = mean(Salinity))
+
+# subset by location
+inshore <- bin %>% filter(Location == "Inshore")
+hist(inshore$Salinity)
+summary(inshore) # Highest salinity is 6.21 ppt
+
+
+
+coast<- bin %>% filter(Location == "Coastal") 
+hist(coast$Salinity)
+filter(coast, Salinity <= 6.21) %>% count() #22 samples are <= 6.21
+
+#Create bin column for three groups based on salinity findings
+
+coast.low <-  filter(coast, Salinity <= 6.21) %>% add_column(bin_sal = "coast.low")
+coast.hi <- filter(coast, Salinity > 6.21) %>% add_column(bin_sal = "coast.hi")
+inshore <- add_column(inshore, bin_sal= "inshore") 
+
+stack <- bind_rows(coast.hi,coast.low,inshore)
+
+write_tsv(stack, file = "data/process/bin.metadata.tsv")
+
+
