@@ -75,7 +75,12 @@ library(microbiomeutilities) # some utility tools
 ASVs <- read_qza("data/process/bs.table.qza")
 
 #Importing metadata
-metadata <- read.table("data/process/bs.metadata.tsv", sep='\t', header=T, row.names=1, comment="")
+
+meta <- read_tsv("data/process/sal.metadata.tsv")
+
+metadata <- read.table("data/process/sal.metadata.tsv", sep='\t', header=T, row.names=1, comment="")
+
+
 metadata <- metadata[-1,] # remove the second line that specifies the data type
 
 # Importing tree
@@ -117,12 +122,14 @@ tax_table(phy)[1:5, 1:4]
 #Double check that data are filtered by site to remove Barataria Bay samples
 
 physeq <- subset_samples(phy, Site == "BS") 
-physeq <- subset_samples(physeq, Location != "UNKNOWN")
+physeq <- subset_samples(physeq, bin_sal != "NA")
+
+metadata <- filter(metadata, bin_sal !="NA")
 
 
 # Distribution of reads
 
-plot_read_distribution(physeq, groups = "Location", plot.type = "density") + theme_biome_utils()
+plot_read_distribution(physeq, groups = "bin_sal", plot.type = "density") + theme_biome_utils()
 
 #Rarefy the phyloseq object to even depth prior various analysis
 
@@ -142,23 +149,29 @@ physeq.fam.rel <- physeq %>%
   aggregate_rare(level = "Family", detection = 50/100, prevalence = 70/100) %>%
   microbiome::transform(transform = "compositional")
 
-plot_composition(physeq.fam.rel,sample.sort = "Location", x.label = "SampleID") + theme(legend.position = "bottom") + scale_fill_brewer("Family", palette = "Paired") + theme_bw() + theme(axis.text.x = element_text(angle = 90)) + ggtitle("Relative abundance") + theme(legend.title = element_text(size = 18))
+plot_composition(physeq.fam.rel,sample.sort = "bin_sal", x.label = "SampleID") + 
+  theme(legend.position = "bottom") + 
+  scale_fill_brewer("Family", palette = "Paired") + 
+  theme_bw() + 
+  theme(axis.text.x = element_text(angle = 90)) + 
+  ggtitle("Relative abundance") + 
+  theme(legend.title = element_text(size = 18))
 
 # Barplot Option 2
 
-taxa_barplot(Summarize.Taxa(ASVs$data, as.data.frame(tax_table))$Family, metadata, "Location")
+taxa_barplot(Summarize.Taxa(ASVs$data, as.data.frame(tax_table))$Family, metadata, "bin_sal")
 
   # To make it interactive
-ggplotly(taxa_barplot(Summarize.Taxa(ASVs$data, as.data.frame(tax_table))$Family, metadata, "Location"))
+ggplotly(taxa_barplot(Summarize.Taxa(ASVs$data, as.data.frame(tax_table))$Family, metadata, "bin_sal"))
 
   # save the plot
-b.plot <- taxa_barplot(Summarize.Taxa(ASVs$data, as.data.frame(tax_table))$Family, metadata, "Location")
+b.plot <- taxa_barplot(Summarize.Taxa(ASVs$data, as.data.frame(tax_table))$Family, metadata, "bin_sal")
 
 ggsave("results/figures/barplot_family.png", b.plot,  width = 14, height = 10, dpi = 300)
 
 # Heatmap
 
-taxa_heatmap(Summarize.Taxa(ASVs$data, as.data.frame(tax_table))$Family, metadata, "Location")
+taxa_heatmap(Summarize.Taxa(ASVs$data, as.data.frame(tax_table))$Family, metadata, "bin_sal")
 
 # Heatmap 2
 
@@ -166,7 +179,7 @@ library(pheatmap)
 
 p <- plot_taxa_heatmap(physeq,
                        subset.top = 25,
-                       VariableA = c("Location", "Event"),
+                       VariableA = c("bin_sal", "Event"),
                        transformation = "log10",
                        cluster_rows = T,
                        cluster_cols = F,
@@ -183,7 +196,7 @@ p$tax_tab[1:3,1:3]
 # Heatmap 3
 
 h.map <- plot_heatmap(physeq.fam.rel, method="PCoA", distance="bray", taxa.label = "Family", sample.order = unique(sample_names(physeq))) + 
-  facet_grid(~Location, scales = "free_x", drop = TRUE) + theme_bw() + theme(axis.text.x = element_text(face = "bold", angle = 45, hjust = 1)) + 
+  facet_grid(~bin_sal, scales = "free_x", drop = TRUE) + theme_bw() + theme(axis.text.x = element_text(face = "bold", angle = 45, hjust = 1)) + 
   theme(legend.key = element_blank(),strip.background = element_rect(colour="black", fill="white"))
 
 # Make bacterial names italics
@@ -210,8 +223,8 @@ colnames(physeq_df)
 
 # Box plot at Family level
 
-ggstripchart(physeq_df, "Location", "Abundance", 
-             facet.by = "Family", color = "Location",
+ggstripchart(physeq_df, "bin_sal", "Abundance", 
+             facet.by = "Family", color = "bin_sal",
              palette = "jco") + rremove("x.text")
 
 # Plot relative abundance of top taxa
@@ -221,7 +234,7 @@ mycols <- c("coral", "steelblue2", "slategray2", "olivedrab")
 t.plot <- plot_taxa_boxplot(physeq,
                   taxonomic.level = "Family",
                   top.otu = 6, 
-                  group = "Location",
+                  group = "bin_sal",
                   add.violin= FALSE,
                   title = "Top Six Families", 
                   keep.other = FALSE,
@@ -241,7 +254,7 @@ select.taxa <- top_taxa(physeq.f, 5)
 
 
 p <- plot_listed_taxa(physeq.f, select.taxa, 
-                      group= "Location",
+                      group= "bin_sal",
                       group.order = c("Coastal","Inshore"),
                       group.colors = mycols,
                       add.violin = F,
@@ -251,7 +264,7 @@ p <- plot_listed_taxa(physeq.f, select.taxa,
 # Adding statistical test with ggpubr::stat_compare_means()
 
 # If more than two variables
-comps <- make_pairs(sample_data(physeq.f)$Location)
+comps <- make_pairs(sample_data(physeq.f)$bin_sal)
 print(comps)
 
 p <- p + stat_compare_means(
@@ -297,7 +310,7 @@ top_four <- top_taxa(physeq.genus, 4)
 top_four
 
 top_genera <- plot_listed_taxa(physeq.genus, top_four, 
-                               group= "Location",
+                               group= "bin_sal",
                                group.order = c("Coastal","Inshore"),
                                group.colors = mycols,
                                add.violin = F,
@@ -321,7 +334,7 @@ ggsave("results/figures/bs_top4genera_plot.png", tg.plot,  width = 14, height = 
 
 physeq.gen <- aggregate_taxa(physeq,"Genus")
 
-dom.tax <- dominant_taxa(physeq,level = "Genus", group="Location")
+dom.tax <- dominant_taxa(physeq,level = "Genus", group="bin_sal")
 head(dom.tax$dominant_overview)
 
 # Taxa summary - entire dataset
@@ -333,7 +346,7 @@ taxa_summary(physeq, "Phylum")
 
 grp_abund <- get_group_abundances(physeq, 
                                   level = "Phylum", 
-                                  group="Location",
+                                  group="bin_sal",
                                   transform = "compositional")
 
 # clean names 
@@ -344,10 +357,10 @@ grp_abund$OTUID <- ifelse(grp_abund$OTUID == "",
 mean.plot <- grp_abund %>% # input data
   ggplot(aes(x= reorder(OTUID, mean_abundance), # rerorder based on mean abundance
              y= mean_abundance,
-             fill=Location)) + # x and y axis 
+             fill=bin_sal)) + # x and y axis 
   geom_bar(     stat = "identity", 
                 position=position_dodge()) + 
-  scale_fill_manual("Location", values=mycols) + # manually specify colors
+  scale_fill_manual("bin_sal", values=mycols) + # manually specify colors
   theme_bw() + # add a widely used ggplot2 theme
   ylab("Mean Relative Abundance") + # label y axis
   xlab("Phylum") + # label x axis
@@ -368,7 +381,7 @@ print(ps.sub) # Needs more steps to be useful
 ###################################################################
 #Alpha Diversities
     # Plot rarefraction curve
-rarefrac <- ggrare(physeq, step = 50, color="Location", label = "Sample", se = TRUE)
+rarefrac <- ggrare(physeq, step = 50, color="bin_sal", label = "Sample", se = TRUE)
 
     # Saving the plot
 ggsave("results/figures/bs_curve_plot.png", rarefrac,  width = 14, height = 10, dpi = 300)
@@ -377,7 +390,7 @@ ggsave("results/figures/bs_curve_plot.png", rarefrac,  width = 14, height = 10, 
 
 plot_richness(physeq_rarefy, measures="Shannon")
 
-a.div <- plot_richness(physeq_rarefy, x="Location", measures=c("Shannon", "simpson", "Observed"), color = "Location") + geom_boxplot() + theme_bw()
+a.div <- plot_richness(physeq_rarefy, x="bin_sal", measures=c("Shannon", "simpson", "Observed"), color = "bin_sal") + geom_boxplot() + theme_bw()
 
 # adding statistical support
 a.plot <- a.div + stat_compare_means(
@@ -400,7 +413,7 @@ write.csv(richness, file = "results/tables/alpha_div.csv")
 
 #Creating a plot with one index and stats
 
-plot_diversity_stats(physeq, group = "Location", 
+plot_diversity_stats(physeq, group = "bin_sal", 
                      index = "diversity_shannon", 
                      group.order = c("Inshore","Coastal"),                      
                      group.colors = mycols,
@@ -409,8 +422,8 @@ plot_diversity_stats(physeq, group = "Location",
 # 9. Beta diversity metrices
 # 9.1 Non - Phylogenetic beta diversity metrics
 physeq.ord <- ordinate(physeq_rarefy, "PCoA", "bray")
-b.div.bray <- plot_ordination(physeq_rarefy, physeq.ord, type= "samples", color= "Location") + geom_point(size=3)
-b.div.bray <- b.div.bray + stat_ellipse() + ggtitle("Bray Curtis")  + theme_classic() + scale_color_brewer("Location", palette = "Set2")
+b.div.bray <- plot_ordination(physeq_rarefy, physeq.ord, type= "samples", color= "bin_sal") + geom_point(size=3)
+b.div.bray <- b.div.bray + stat_ellipse() + ggtitle("Bray Curtis")  + theme_classic() + scale_color_brewer("bin_sal", palette = "Set2")
 print(b.div.bray)
 
 #9.2 Phylogenetic beta diversity metrics
@@ -418,8 +431,8 @@ print(b.div.bray)
 # convert ot relative abundance
 physeq_rel <- microbiome::transform(physeq, "compositional")
 physeq.ord.wuni <- ordinate(physeq_rel, "PCoA", "unifrac", weighted=T)
-b.div.wuni <- plot_ordination(physeq_rel, physeq.ord.wuni, type= "samples", color= "Location") + geom_point(size=3)
-b.div.wuni <- b.div.wuni + stat_ellipse() + ggtitle("Weighted Unifrac")  + theme_classic() + scale_color_brewer("Location", palette = "Set2")
+b.div.wuni <- plot_ordination(physeq_rel, physeq.ord.wuni, type= "samples", color= "bin_sal") + geom_point(size=3)
+b.div.wuni <- b.div.wuni + stat_ellipse() + ggtitle("Weighted Unifrac")  + theme_classic() + scale_color_brewer("bin_sal", palette = "Set2")
 print(b.div.wuni)
 
 
@@ -431,19 +444,19 @@ meta <- meta(physeq_rel)
 
 
 #Statistics - Bdiv
-permanova <- adonis(t(otu) ~ Location, data = meta, permutations=99, method = "bray")
+permanova <- adonis(t(otu) ~ bin_sal, data = meta, permutations=99, method = "bray")
 
 #P-value
-print(as.data.frame(permanova$aov.tab)["Location", "Pr(>F)"])
+print(as.data.frame(permanova$aov.tab)["bin_sal", "Pr(>F)"])
 
 #9.4 Checking the homogeneity condition
 #More infromation can be found by typing ?betadisper
 
 #Pair - wise stats
 dist <- vegdist(t(otu), "bray")
-anova(betadisper(dist, meta$Location))
+anova(betadisper(dist, meta$bin_sal))
 
-permutest(betadisper(dist, meta$Location), pairwise = TRUE)
+permutest(betadisper(dist, meta$bin_sal), pairwise = TRUE)
 
 #10. Core microbiota
 #Subset the data to keep only Inshore samples.
@@ -523,20 +536,20 @@ print(dendro)
 #12. Microbiome network
 #You can plot the distances between ASVs as a network.
 
-plot_net(physeq_rel, maxdist = 0.8, color = "Location")
+plot_net(physeq_rel, maxdist = 0.8, color = "bin_sal")
 #change distance to Jaccard
-plot_net(physeq_rel, maxdist = 0.8, color = "Location", distance="jaccard")
+plot_net(physeq_rel, maxdist = 0.8, color = "bin_sal", distance="jaccard")
 
 #12.1 igraph-based network
 ig <- make_network(physeq_rel, max.dist=0.8)
 plot_network(ig, physeq_rel)
 
 # Add color label 
-plot_network(ig, physeq_rel, color="Location", line_weight=0.4, label=NULL)
+plot_network(ig, physeq_rel, color="bin_sal", line_weight=0.4, label=NULL)
 
 #replace the Jaccard (default) distance method with Bray-Curtis
 ig <- make_network(physeq_rel, dist.fun="bray", max.dist=0.8)
-plot_network(ig, physeq_rel, color="Location", line_weight=0.4, label=NULL)
+plot_network(ig, physeq_rel, color="bin_sal", line_weight=0.4, label=NULL)
       #####Note: For co-occurrence networks of OTUs, I suggest trying Gephi or Cytoscape
 ############################################
   ######### Section 13 not running with current settings, will follow DeSeq Specific tutorial
@@ -544,7 +557,7 @@ plot_network(ig, physeq_rel, color="Location", line_weight=0.4, label=NULL)
 # DeSeq2 to test for differential abundance between categories
 
 #Convert phyloseq object to DeSeq
-bsdds <- phyloseq_to_deseq2(physeq_rarefy, ~ Location)
+bsdds <- phyloseq_to_deseq2(physeq_rarefy, ~ bin_sal)
 gm_mean <- function(x, na.rm=TRUE){
   exp(sum(log(x[x > 0]), na.rm=na.rm) / length(x))
 }

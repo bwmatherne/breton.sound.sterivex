@@ -12,6 +12,7 @@ library(tidyverse)
 
 theme_set(theme_bw())
 
+phy <- read_rds("data/phyloseq/physeq.rds")
 
 # Remove the OTUs that included all unassigned sequences ("-1")
 phy2 <- subset_taxa(phy, Genus != "-1")
@@ -89,3 +90,22 @@ ggsave("data/phyloseq/altGower.png", altGower,  width = 14, height = 10, dpi = 3
 plist$unifrac$data$Month <- fct_relevel(plist$unifrac$data$Month, c("1","2","3","4","5","6","8","9","10"))
 unifrac <- print(plist[["unifrac"]])
 ggsave("data/phyloseq/unifrac.png", unifrac,  width = 14, height = 10, dpi = 300)
+
+
+######################################################### 
+
+#Calculate Weighted Unifrac distance among samples and convert the result to a matrix:
+  
+wunifrac <- phyloseq::distance(physeq, method = "wUnifrac")
+wunifrac <- as.matrix(wunifrac)
+head(wunifrac)[,1:6]
+
+ord = ordinate(physeq, method="PCoA", distance = "wUnifrac")
+
+
+plot_ordination(physeq, ord, color = "Month", shape="bin_sal") + 
+  geom_point(size=4) + 
+  stat_ellipse(aes(group=Month))
+
+samples <- data.frame(sample_data(physeq))
+adonis(wunifrac ~ bin_sal, data = samples)
