@@ -187,3 +187,7 @@ plot03 <- ggplot(sigtabgen, aes(y=Genus, x=log2FoldChange, color=Phylum)) +
   theme(axis.text.x = element_text(angle = -90, hjust = 0, vjust=0.5))
 
 ggsave("data/phyloseq/deseq2_log2fold_03.png", plot03,  width = 14, height = 10, dpi = 300)
+
+
+# CONTRASTS - https://bioconductor.org/packages/devel/bioc/vignettes/DESeq2/inst/doc/DESeq2.html#contrasts
+
