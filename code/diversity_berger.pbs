@@ -1,0 +1,28 @@
+#!/bin/bash
+#PBS -q checkpt
+#PBS -A hpc_houmicro07
+#PBS -l nodes=1:ppn=20
+#PBS -l walltime=0:10:00
+#PBS -o /work/bmath27/sterivex/
+#PBS -j oe
+#PBS -N diversity
+#PBS -m abe
+#PBS -M bmath27@lsu.edu
+date
+
+cd /work/bmath27/
+unset PYTHONPATH
+unset PYTHONUSERBASE
+source activate qiime2-2021.11
+cd /work/bmath27/sterivex
+
+# Alpha berger_parker_d for most significant OTU
+qiime diversity alpha \
+        --i-table data/process/bs.table.qza \
+        --p-metric berger_parker_d \
+        -o-alpha-diversity data/process/bs.berger.qza
+
+
+
+date
+exit 0
