@@ -316,6 +316,19 @@ resSAL <- results(ddsSAL)
 head(resSAL)
 resultsNames(ddsSAL) # Need to continue making figure
 
+# Investigate test results table
 
 
+resSAL = resSAL[order(resSAL$padj, na.last=NA), ]
+alpha = 0.01
+sigtab5 = resSAL[(resSAL$padj < alpha), ]
+sigtab5 = cbind(as(sigtab5, "data.frame"), as(tax_table(phy)[rownames(sigtab5), ], "matrix"))
+head(sigtab5)
 
+# Let’s look at just the OTUs that were significantly present. First, cleaning up the table a little for legibility.
+posigtab5 = sigtab5[sigtab5[, "log2FoldChange"] > 0, ]
+posigtab5 = posigtab5[, c("baseMean", "log2FoldChange", "lfcSE", "padj", "Phylum", "Class", "Family", "Genus")]
+head(posigtab5)
+
+write.csv(as.data.frame(posigtab5), 
+          file="data/phyloseq/desq2_Salinity.csv")
