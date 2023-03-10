@@ -22,6 +22,9 @@ qiime diversity alpha \
         --p-metric berger_parker_d \
         --o-alpha-diversity data/process/bs.berger.qza
 
+qiime tools export \
+  --input-path data/process/bs.berger.qza \
+  --output-path data/process/exported-berger-table
 
 
 date
