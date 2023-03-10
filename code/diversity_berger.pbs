@@ -20,7 +20,7 @@ cd /work/bmath27/breton.sound.sterivex
 qiime diversity alpha \
         --i-table data/process/bs.table.qza \
         --p-metric berger_parker_d \
-        -o-alpha-diversity data/process/bs.berger.qza
+        --o-alpha-diversity data/process/bs.berger.qza
 
 
 
