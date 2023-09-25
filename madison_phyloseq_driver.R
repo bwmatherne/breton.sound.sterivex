@@ -122,14 +122,14 @@ tax_table(phy)[1:5, 1:4]
 #Double check that data are filtered by site to remove Barataria Bay samples
 
 physeq <- subset_samples(phy, Site == "BS") 
-physeq <- subset_samples(physeq, bin_sal != "NA")
+physeq <- subset_samples(physeq, Location != "NA")
 
-metadata <- filter(metadata, bin_sal !="NA")
+metadata <- filter(metadata, Location !="NA")
 
 
 # Distribution of reads
 
-plot_read_distribution(physeq, groups = "bin_sal", plot.type = "density") + theme_biome_utils()
+plot_read_distribution(physeq, groups = "Location", plot.type = "density") + theme_biome_utils()
 
 #Rarefy the phyloseq object to even depth prior various analysis
 
@@ -149,7 +149,7 @@ physeq.fam.rel <- physeq %>%
   aggregate_rare(level = "Family", detection = 50/100, prevalence = 70/100) %>%
   microbiome::transform(transform = "compositional")
 
-plot_composition(physeq.fam.rel,sample.sort = "bin_sal", x.label = "SampleID") + 
+plot_composition(physeq.fam.rel,sample.sort = "Location", x.label = "SampleID") + 
   theme(legend.position = "bottom") + 
   scale_fill_brewer("Family", palette = "Paired") + 
   theme_bw() + 
@@ -159,19 +159,19 @@ plot_composition(physeq.fam.rel,sample.sort = "bin_sal", x.label = "SampleID") +
 
 # Barplot Option 2
 
-taxa_barplot(Summarize.Taxa(ASVs$data, as.data.frame(tax_table))$Family, metadata, "bin_sal")
+taxa_barplot(Summarize.Taxa(ASVs$data, as.data.frame(tax_table))$Family, metadata, "Location")
 
   # To make it interactive
-ggplotly(taxa_barplot(Summarize.Taxa(ASVs$data, as.data.frame(tax_table))$Family, metadata, "bin_sal"))
+ggplotly(taxa_barplot(Summarize.Taxa(ASVs$data, as.data.frame(tax_table))$Family, metadata, "Location"))
 
   # save the plot
-b.plot <- taxa_barplot(Summarize.Taxa(ASVs$data, as.data.frame(tax_table))$Family, metadata, "bin_sal")
+b.plot <- taxa_barplot(Summarize.Taxa(ASVs$data, as.data.frame(tax_table))$Family, metadata, "Location")
 
 ggsave("results/figures/barplot_family.png", b.plot,  width = 14, height = 10, dpi = 300)
 
 # Heatmap
 
-taxa_heatmap(Summarize.Taxa(ASVs$data, as.data.frame(tax_table))$Family, metadata, "bin_sal")
+taxa_heatmap(Summarize.Taxa(ASVs$data, as.data.frame(tax_table))$Family, metadata, "Location")
 
 # Heatmap 2
 
@@ -179,7 +179,7 @@ library(pheatmap)
 
 p <- plot_taxa_heatmap(physeq,
                        subset.top = 25,
-                       VariableA = c("bin_sal", "Event"),
+                       VariableA = c("Location", "Event"),
                        transformation = "log10",
                        cluster_rows = T,
                        cluster_cols = F,
@@ -196,7 +196,7 @@ p$tax_tab[1:3,1:3]
 # Heatmap 3
 
 h.map <- plot_heatmap(physeq.fam.rel, method="PCoA", distance="bray", taxa.label = "Family", sample.order = unique(sample_names(physeq))) + 
-  facet_grid(~bin_sal, scales = "free_x", drop = TRUE) + theme_bw() + theme(axis.text.x = element_text(face = "bold", angle = 45, hjust = 1)) + 
+  facet_grid(~Location, scales = "free_x", drop = TRUE) + theme_bw() + theme(axis.text.x = element_text(face = "bold", angle = 45, hjust = 1)) + 
   theme(legend.key = element_blank(),strip.background = element_rect(colour="black", fill="white"))
 
 # Make bacterial names italics
@@ -223,8 +223,8 @@ colnames(physeq_df)
 
 # Box plot at Family level
 
-ggstripchart(physeq_df, "bin_sal", "Abundance", 
-             facet.by = "Family", color = "bin_sal",
+ggstripchart(physeq_df, "Location", "Abundance", 
+             facet.by = "Family", color = "Location",
              palette = "jco") + rremove("x.text")
 
 # Plot relative abundance of top taxa
@@ -234,7 +234,7 @@ mycols <- c("coral", "steelblue2", "slategray2", "olivedrab")
 t.plot <- plot_taxa_boxplot(physeq,
                   taxonomic.level = "Family",
                   top.otu = 6, 
-                  group = "bin_sal",
+                  group = "Location",
                   add.violin= FALSE,
                   title = "Top Six Families", 
                   keep.other = FALSE,
@@ -254,7 +254,7 @@ select.taxa <- top_taxa(physeq.f, 5)
 
 
 p <- plot_listed_taxa(physeq.f, select.taxa, 
-                      group= "bin_sal",
+                      group= "Location",
                       group.order = c("Coastal","Inshore"),
                       group.colors = mycols,
                       add.violin = F,
@@ -264,7 +264,7 @@ p <- plot_listed_taxa(physeq.f, select.taxa,
 # Adding statistical test with ggpubr::stat_compare_means()
 
 # If more than two variables
-comps <- make_pairs(sample_data(physeq.f)$bin_sal)
+comps <- make_pairs(sample_data(physeq.f)$Location)
 print(comps)
 
 p <- p + stat_compare_means(
@@ -310,7 +310,7 @@ top_four <- top_taxa(physeq.genus, 4)
 top_four
 
 top_genera <- plot_listed_taxa(physeq.genus, top_four, 
-                               group= "bin_sal",
+                               group= "Location",
                                group.order = c("Coastal","Inshore"),
                                group.colors = mycols,
                                add.violin = F,
@@ -334,7 +334,7 @@ ggsave("results/figures/bs_top4genera_plot.png", tg.plot,  width = 14, height = 
 
 physeq.gen <- aggregate_taxa(physeq,"Genus")
 
-dom.tax <- dominant_taxa(physeq,level = "Genus", group="bin_sal")
+dom.tax <- dominant_taxa(physeq,level = "Genus", group="Location")
 head(dom.tax$dominant_overview)
 
 # Taxa summary - entire dataset
